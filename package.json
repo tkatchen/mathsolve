@@ -1,0 +1,20 @@
+{
+  "name": "mathsolve",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-modules ./test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tklaxbro/mathsolve.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tklaxbro/mathsolve/issues"
+  },
+  "homepage": "https://github.com/tklaxbro/mathsolve#readme"
+}
