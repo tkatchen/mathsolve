@@ -1,74 +1,77 @@
 import {
-    isAlpha,
-    isNumber
-} from "./helper.js"
+  isAlpha,
+  isNumber
+} from './helper.js'
+
+import {
+  Constants
+} from './Constants/ProgramConstants.js'
 
 export class Lexer {
-    constructor() {
-        this.OPERATIONS = [
-            "+",
-            "-",
-            "*",
-            "/",
-            "^"
-        ]
-
-        this.L_PAREN = "("
-        this.R_PAREN = ")"
-        this.EQUALS = "="
-        this.DECIMAL = "."
-
-        /**
+  constructor () {
+    /**
          * The input passed to the lexer
          * @type {string}
          */
-        this.input
+    this.input = ''
 
-        /**
+    /**
          * The current location of the lexer
          * @type {number}
          */
-        this.pos
+    this.pos = 0
 
-        /**
+    /**
          * An array with all of the toxens
          * @type {Array}
          */
-        this.tokens
-    }
-    
-    /**
+    this.tokens = []
+  }
+
+  /**
      * Initializes new information into the lexer
-     * @param {string} input 
+     * @param {string} input
      */
-    init(input) {
-        this.input = input
-        this.pos = 0
-        this.tokens = []
+  init (input) {
+    this.input = input
+    this.pos = 0
+    this.counter = 0
+    this.tokens = []
 
-        for(let i = 0; i < this.input.length; i++)
-            this._parseToken(i)
+    while(this.pos <= this.input.length) { this._parseToken() }
+  }
+
+  _parseToken () {
+    for(let i = 5; i >= 1; i--) {
+      if(this._viewFuture(i)) return
     }
 
-    _parseToken(loc) {
-        let token = this.input[loc]
-        let type
-        
-        if(this.OPERATIONS.includes(token)) type = "OPERATOR"
-        else if(this.L_PAREN == token)      type = "L_PAREN"
-        else if(this.R_PAREN == token)      type = "R_PAREN"
-        else if(this.EQUALS == token)       type = "EQUALS"
-        else if(isAlpha(token))             type = "VARIABLE"
-        else if(isNumber(token))            type = "NUMBER"
-        else if(this.DECIMAL == token)      type = "DECIMAL"
-        else return;
+    this.pos++
+  }
 
-        this.tokens.push({
-            value: token,
-            type: type,
-            position: this.pos
-        })
+  _viewFuture(dist) {
+    if(!this.input[this.pos + dist - 1]) return false
+    let substr = this.input.slice(this.pos, this.pos + dist)
 
-        this.pos++
-    }
+    let type;
+    if (Constants.OPERATIONS.includes(substr)) type = 'OPERATOR'
+    else if(Constants.FUNCTIONS.includes(substr)) type = 'FUNCTION'
+    else if (Constants.L_PAREN === substr) type = 'L_PAREN'
+    else if (Constants.R_PAREN === substr) type = 'R_PAREN'
+    else if (Constants.EQUALS === substr) type = 'EQUALS'
+    else if (isAlpha(substr)) type = 'VARIABLE'
+    else if (isNumber(substr)) type = 'NUMBER'
+    else if (Constants.DECIMAL === substr) type = 'DECIMAL'
+    else return false
+
+    this.tokens.push({
+      value: substr,
+      type: type,
+      position: this.counter
+    })
+
+    this.pos += dist
+    this.counter++
+    return true
+  }
 }
