@@ -3,22 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
-    "test": "node --experimental-modules ./test/test.js"
+    "test": "node --experimental-modules test/test.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tklaxbro/mathsolve.git"
-  },
-  "author": "",
+  "author": "tklaxbro",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tklaxbro/mathsolve/issues"
-  },
-  "homepage": "https://github.com/tklaxbro/mathsolve#readme",
-  "devDependencies": {
-    "standard": "^14.3.3"
-  },
-  "dependencies": {}
+  "type": "module"
 }
